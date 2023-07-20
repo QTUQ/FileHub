@@ -5,5 +5,6 @@ const userController = require("../controllers/user"); // Get all exported funct
 router.post("/signup", userController.signup);
 
 router.get("/verify/:confirmationToken", userController.verifyEmail);
+router.post("/login", userController.login);
 
 module.exports = router;
