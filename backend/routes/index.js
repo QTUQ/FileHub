@@ -4,4 +4,6 @@ const userController = require("../controllers/user"); // Get all exported funct
 // Map the `signup` request to the signup function
 router.post("/signup", userController.signup);
 
+router.get("/verify/:confirmationToken", userController.verifyEmail);
+
 module.exports = router;
