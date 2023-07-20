@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const userSchema = new mongoose.Schema({
   firstName: { type: String, default: null },
@@ -9,7 +10,7 @@ const userSchema = new mongoose.Schema({
   token: { type: String },
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 const validate = (user) => {
   const schema = Joi.object({

@@ -40,6 +40,7 @@ exports.signup = async (req, res) => {
 
     // Return the created user data
     res.status(201).json(user);
+    console.log("user registered successfully..");
 
     } catch (error) {
         console.log(error)

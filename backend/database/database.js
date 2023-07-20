@@ -4,7 +4,7 @@ const {MONGO_URL} = process.env
 
 exports.connect = () => {
     mongoose
-    .connect(MONGO_URL)
+    .connect(MONGO_URL, {useNewUrlParser: true})
     .then(() => {
         console.log("connected to database successfully...");
     })
