@@ -3,7 +3,7 @@ const API_URL = "http://localhost:40000/api"; //the API endpoint to communicate 
 
 // handles the signup http request to add a new user to the database
 const signup = ({firstName, lastName, username, email, password}) => {
-    return axios.post(`＄{API_URL}/signup/`, {
+    return axios.post(`${API_URL}/signup/`, {
         firstName,
         lastName,
         username,
@@ -16,7 +16,7 @@ const signup = ({firstName, lastName, username, email, password}) => {
 // tha data needed for each user is the username or email along with the password
 const login = ({emailOrUsername, password}) => {
     return axios
-    .post(`＄{API_URL}/login/`, {emailOrUsername, password})
+    .post(`${API_URL}/login/`, {emailOrUsername, password})
     // if successfuly logged in, store the user data, including the token, in the localstorge
     .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
