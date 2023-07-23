@@ -1,21 +1,47 @@
 const { File, validate } = require("../models/file");
 const fs = require("fs");
 const readline = require("readline");
+const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
+const stringSimilarity = require("string-similarity");
+// defined as the base for the links of all the uploaded items on the server
+const BASE_URL = process.env.API_URL  || "http://0.0.0.0:4000";
 
-const spellCheck = (path) => {
+const spellCheck = async (path) => {
   const readInterface = readline.createInterface({
     input: fs.createReadStream(path),
     output: process.stdout,
     console: false,
   });
 
-  readInterface.on("line", function (line) {
-    console.log(line);
+  let text = "";
+
+  for await (const line of readInterface) {
+    const correctedLine = line
+      .split(" ")
+      .map((word) => {
+        if (!SpellChecker.spellCheck(word)) {
+          const suggestions = SpellChecker.getSuggestions(word);
+
+          const matches = stringSimilarity.findBestMatch(
+            word,
+            suggestions.length === 0 ? [word] : suggestions
+          );
+
+          return matches.bestMatch.target;
+        }
+        return word;
+      })
+      .join(" ");
+
+    text += correctedLine + "\n";
+  }
+
+  fs.writeFile(`${path}.txt`, text, (err, res) => {
+    if (err) console.log("error", err);
   });
 };
 
-// defined as the base for the links of all the uploaded items on the server
-const BASE_URL = process.env.API_URL  || "http://0.0.0.0:4000";
+
 
 exports.upload = async (req, res) => {
   try {
