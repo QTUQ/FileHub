@@ -59,7 +59,7 @@ const processImage = async (path) => { // async-await feature because the metada
       })
       .toFormat("jpeg", { mozjpeg: true }) // We compress the image to achieve better performance in the frontend
       .blur(1) // The sigma argument accepts values between 0.3 and 1000.
-      .composite([{ input: "uploads/logo.png", gravity: "center" }])
+      .composite([{ input: "uploads/logo.png", gravity: "center" }]) // to indicate that the uploaded images belong to our application only.
       .toFile(newPath);
 
     return newPath;
