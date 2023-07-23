@@ -10,12 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
     "googleapis": "^122.0.0",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.4"
   }
 }
