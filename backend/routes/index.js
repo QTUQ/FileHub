@@ -1,5 +1,6 @@
 const router = require("express").Router(); // Ge the router instance of Express
 const userController = require("../controllers/user"); // Get all exported functions in the user controller
+const fileController = require("../controllers/file");
 const auth = require("../middleware/auth");
 const { upload } = require("../middleware/multer");
 
