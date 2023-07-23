@@ -3,10 +3,13 @@ require("./database/database.js").connect();
 const auth = require("./middleware/auth");
 const express = require("express")
 const router = require("./routes/index");
+const bodyParser = require("body-parser");
 const app = express()
 const port = process.env.PORT || 3001;
 
 app.use(express.json()); 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
     res.send({message: "Hellow world!"})
