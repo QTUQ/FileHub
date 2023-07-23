@@ -11,6 +11,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.use('/uploads', express.static("./uploads"));
+
 app.get("/", (req, res) => {
     res.send({message: "Hellow world!"})
 })
@@ -21,6 +23,7 @@ app.use("/api", router);
 app.post("/api/hello", auth, (req, res) => {
      res.status(200).send("Hello 🙌 ");
     });
+
 
 app.listen(port, () => {
     console.log(`App is listening on port ${port}!`)
