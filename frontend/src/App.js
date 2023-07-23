@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from "react";
 import { Context } from "./context";
 import Navbar from "./components/Navbar";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup"
 import Confirmation from "./pages/Confirmation";
 import Login from "./pages/Login";

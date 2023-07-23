@@ -1,48 +1,50 @@
-import axios from "axios"; // http client
-const API_URL = "http://localhost:40000/api"; //the API endpoint to communicate with the server
+import axios from "axios"; // HTTP Client
 
-// handles the signup http request to add a new user to the database
-const signup = ({firstName, lastName, username, email, password}) => {
-    return axios.post(`${API_URL}/signup/`, {
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
+const API_URL = "http://0.0.0.0:40000"; // The API endpoint to communicate with the server
+
+/**
+ * Handles the signup HTTP request to add a new user to the database
+ * The data needed for each user is First Name, Last Name, Username, Email, and Password
+ */
+const signup = ({ firstName, lastName, username, email, password }) => {
+  return axios.post(`/signup`, {
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+  });
+};
+/**
+ * Handles the verify email request.
+ */
+const verify = (confirmationToken) => {
+  return axios.get(`/verify/${confirmationToken}`);
+};
+/**
+ * Handles the login HTTP request to access your user profile
+ * The data needed for each user is the username or email along with the password
+ */
+const login = ({ emailOrUsername, password }) => {
+  return axios
+    .post(`/login`, { emailOrUsername, password })
+    .then((res) => {
+      /**
+       * If successfully logged in, store the user data, inlucding the token, in the localStorage
+       */
+      localStorage.setItem("user", JSON.stringify(res.data));
+      return res.data;
     });
 };
 
-// Handles the verify email request.
-const verify = (confirmationToken) => {
-    return axios.get(`${API_URL}/verify/${confirmationToken}`);
-  };
-
-// handles the login http request to access  user profile
-// tha data needed for each user is the username or email along with the password
-const login = ({emailOrUsername, password}) => {
-    return axios
-    .post(`${API_URL}/login/`, {emailOrUsername, password})
-    // if successfuly logged in, store the user data, including the token, in the localstorge
-    .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data));
-    })
-};
-
-// hamdles the logout
 const logout = () => {
-    localStorage.removeItem("user");
-};
-
-// get the user from the localstorge
-const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+  localStorage.removeItem("user");
 };
 
 const AuthService = {
-    signup,
-    login,
-    logout,
-    getCurrentUser,
-}
+  signup,
+  login,
+  logout,
+};
 
 export default AuthService;
