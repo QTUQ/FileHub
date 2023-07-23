@@ -3,10 +3,13 @@ const fs = require("fs");
 const readline = require("readline");
 const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
 const stringSimilarity = require("string-similarity");
+const sharp = require("sharp");
 // defined as the base for the links of all the uploaded items on the server
 const BASE_URL = process.env.API_URL  || "http://0.0.0.0:4000";
 
+// process text file
 const spellCheck = async (path) => {
+  console.log("spellCheck")
   const readInterface = readline.createInterface({
     input: fs.createReadStream(path),
     output: process.stdout,
@@ -41,6 +44,34 @@ const spellCheck = async (path) => {
   });
 };
 
+// process image file 
+const processImage = async (path) => { // async-await feature because the metadata() method is an async function
+  try {
+    const imgInstnace = sharp(path);
+    const metadata = await imgInstnace.metadata(); 
+    console.log(metadata);  // to obtain information about the image
+    const newPath = path.split(".")[0] + "-img.jpeg";
+    imgInstnace
+      .resize({ // resize all images to a fixed size so that they are symmetrical when we displayed in the UI.
+        //  resize the image with a width of 350 pixels and set the fit attribute to contain to keep the scale
+        width: 350,
+        fit: sharp.fit.contain,
+      })
+      .toFormat("jpeg", { mozjpeg: true }) // We compress the image to achieve better performance in the frontend
+      .blur(1) // The sigma argument accepts values between 0.3 and 1000.
+      .composite([{ input: "uploads/logo.png", gravity: "center" }])
+      .toFile(newPath);
+
+    return newPath;
+  } catch (error) {
+    console.log(
+      `An error occurred during processing the uploaded image: ${error}`
+    );
+  }
+
+  return path;
+};
+
 
 
 exports.upload = async (req, res) => {
@@ -50,6 +81,10 @@ exports.upload = async (req, res) => {
 
     const { name, description } = req.body; // The name and description are extracted from the body after validation.
     let path = req.file.path;
+
+    if (req.file.mimetype.match(/^image/)) { //  /^image/ expression to match all the images when calling the function
+      path = await processImage(req.file.path); // define a new path for the image, because we cannot write and read the same image in the sharp package.
+    }
 
     const file = await File.create({
       name,
