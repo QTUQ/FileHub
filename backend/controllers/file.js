@@ -1,4 +1,18 @@
 const { File, validate } = require("../models/file");
+const fs = require("fs");
+const readline = require("readline");
+
+const spellCheck = (path) => {
+  const readInterface = readline.createInterface({
+    input: fs.createReadStream(path),
+    output: process.stdout,
+    console: false,
+  });
+
+  readInterface.on("line", function (line) {
+    console.log(line);
+  });
+};
 
 // defined as the base for the links of all the uploaded items on the server
 const BASE_URL = process.env.API_URL  || "http://0.0.0.0:4000";
