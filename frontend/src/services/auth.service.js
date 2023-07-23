@@ -12,6 +12,11 @@ const signup = ({firstName, lastName, username, email, password}) => {
     });
 };
 
+// Handles the verify email request.
+const verify = (confirmationToken) => {
+    return axios.get(`${API_URL}/verify/${confirmationToken}`);
+  };
+
 // handles the login http request to access  user profile
 // tha data needed for each user is the username or email along with the password
 const login = ({emailOrUsername, password}) => {

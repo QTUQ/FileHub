@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-
 import logo from "../assets/logo.png";
 import { Context } from "../context";
 
