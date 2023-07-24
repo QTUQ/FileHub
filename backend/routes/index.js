@@ -13,5 +13,6 @@ router.post("/upload", auth, upload.single("file"), fileController.upload);
 router.get("/file/:createdBy", auth, fileController.getAll);
 router.get("/file/:createdBy/:filedId", auth, fileController.getFile);
 router.get("/file", auth, fileController.searchFile);
+router.put("/file/:id", auth, fileController.updateFile);
 
 module.exports = router;

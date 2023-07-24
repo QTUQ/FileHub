@@ -170,3 +170,42 @@ exports.searchFile = async (req, res) => {
     return res.status(500).send(err.message);
   }
 }
+
+// update file
+
+exports.updateFile = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    // The user can only update the name and description of this file document.
+    const { name, description } = req.body
+
+    if (!name || description) 
+      return res.status(400).send("File's name and description are required");
+    const result = await File.validateAsync({ name, description});
+    const file = await File.findOne({
+      _id,
+    });
+
+    if (!file) {
+      return res.status(404).send("The requested file doe not exist");
+    }
+
+    const updateFile = await File.update(
+      {
+      _id,
+    }, 
+    {
+      $set: result,
+    },
+    {
+      update: true
+    }
+    );
+    res 
+    .status(200)
+    .json({message: "File updated successfully", data: updateFile});
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send(err.message);
+  }
+}
