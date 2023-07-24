@@ -4,9 +4,12 @@ const readline = require("readline");
 const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
 const stringSimilarity = require("string-similarity");
 const sharp = require("sharp");
+const { file } = require("googleapis/build/src/apis/file");
+const { error } = require("console");
 // defined as the base for the links of all the uploaded items on the server
 const BASE_URL = process.env.API_URL  || "http://0.0.0.0:4000";
 
+// craete operation
 // process text file
 const spellCheck = async (path) => {
   console.log("spellCheck")
@@ -72,8 +75,6 @@ const processImage = async (path) => { // async-await feature because the metada
   return path;
 };
 
-
-
 exports.upload = async (req, res) => {
   try {
     const { error } = validate(req.body);
@@ -100,3 +101,40 @@ exports.upload = async (req, res) => {
     return res.status(400).send(err.message);
   }
 };
+
+// Read, update, delete operations
+
+exports.getAll = async (req, res) => {
+  try {
+    // The createdBy parameter is a query parameter used to retrieve the files related to a particular user.
+    const { createdBy } = req.params;
+
+    const allFiles = await File.find({createdBy: createdBy});
+    res 
+    .status(200)
+    console.log("File retrived successfully")
+    .json({message: "File retrived successfully", data: allFiles});
+  } catch (err) {
+    console.log(error);
+    return res.status(500).send(err.message);
+  }
+}
+
+exports.getFile = async (req, res) => {
+  try {
+    const { createdBy, fileId } = req.params;
+
+    const files = await File.findOne({ _id: fileId, createdBy: createdBy });
+
+    if (!files) {
+      return res.status(404).send("The requested file does not exist");
+    }
+
+    res 
+    .status(200)
+    .json({message: "File retrieved successfully", data: file})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err.message);
+  }
+}
