@@ -138,3 +138,24 @@ exports.getFile = async (req, res) => {
     return res.status(500).send(err.message);
   }
 }
+
+// search file 
+
+exports.searchFile = async (req, res) => {
+  try {
+    const filter = {};
+
+    if (req.query.name) filter.name = /req.query.name/;
+    if (req.query.description) filter.description = /req.query.description/;
+    if (req.query.createdAt) filter.createdAt = req.query.createdAt;
+
+    const files = await File.find(filter);
+    
+    res
+    .status(200)
+    .json({message: "Files retrieved successfully", data: files})
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send(err.message);
+  }
+}
