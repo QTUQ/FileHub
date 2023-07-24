@@ -13,6 +13,7 @@ router.post("/upload", auth, upload.single("file"), fileController.upload);
 router.get("/file/:createdBy", auth, fileController.getAll);
 router.get("/file/:createdBy/:filedId", auth, fileController.getFile);
 router.get("/file", auth, fileController.searchFile);
-router.put("/file/:id", auth, fileController.updateFile);
+router.put("/file/:_id", auth, fileController.updateFile);
+router.delete("/file/:_id", auth, fileController.deleteFile);
 
 module.exports = router;

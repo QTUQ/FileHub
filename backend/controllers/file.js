@@ -209,3 +209,31 @@ exports.updateFile = async (req, res) => {
     return res.status(500).send(err.message);
   }
 }
+
+// delete file 
+
+exports.deleteFile = async (req, res) => {
+  try {
+
+    const { _id } = req.params;
+    const file = await File.findOne({
+      _id,
+    });
+
+    if (!file) {
+      return res.status(404).send("The requested file doe not exist");
+    }
+
+    await File.removeAllListeners({
+      _id,
+    });
+
+    res
+    .status(200)
+    .json({message: "File deleted successfully"});
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err.message);
+  }
+}
