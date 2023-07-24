@@ -7,7 +7,7 @@ const sharp = require("sharp");
 const { file } = require("googleapis/build/src/apis/file");
 const { error } = require("console");
 // defined as the base for the links of all the uploaded items on the server
-const BASE_URL = process.env.API_URL  || "http://0.0.0.0:4000";
+const BASE_URL = process.env.API_URL 
 
 // craete operation
 // process text file
@@ -83,8 +83,14 @@ exports.upload = async (req, res) => {
     const { name, description } = req.body; // The name and description are extracted from the body after validation.
     let path = req.file.path;
 
+    if (req.file.mimetype === "text/plain") {
+      await spellCheck(req.file.path);
+      path = `${req.file.path}.txt`;
+    }
+
     if (req.file.mimetype.match(/^image/)) { //  /^image/ expression to match all the images when calling the function
       path = await processImage(req.file.path); // define a new path for the image, because we cannot write and read the same image in the sharp package.
+      
     }
 
     const file = await File.create({
@@ -92,12 +98,17 @@ exports.upload = async (req, res) => {
       createdBy: req.user.user_id, // The createdBy value is the authenticated creator of the uploaded file.
       description,
       createdAt: Date.now(), // The createdAt value shows the time when the file was uploaded to the server.
-      filePath: process.env.API_URL + "/" + path, // contains the public URL for that item on the server so that we can access it easily.
+      filePath: BASE_URL + "/" + path, // contains the public URL for that item on the server so that we can access it easily.
     });
+
+    console.log(filePath);
+    console.log(createdBy);
+
 
     res.status(200).json({ message: "File uploaded successfully", data: file });
   } catch (err) {
     console.log(err);
+    console.log("Faild...")
     return res.status(400).send(err.message);
   }
 };
