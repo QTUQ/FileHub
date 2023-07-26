@@ -13,6 +13,7 @@ const UpdateForm = ({ open, setOpen, file, fetchFiles }) => {
     msg: "",
   });
 
+  // empty, we don’t update the file. Instead, an error message is displayed that says this data is required.
   const handleUpdate = () => {
     if (!name || !description) {
       setAlertState({
