@@ -4,8 +4,7 @@ const readline = require("readline");
 const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
 const stringSimilarity = require("string-similarity");
 const sharp = require("sharp");
-const { file } = require("googleapis/build/src/apis/file");
-const { error } = require("console");
+
 // defined as the base for the links of all the uploaded items on the server
 const BASE_URL = process.env.API_URL 
 
