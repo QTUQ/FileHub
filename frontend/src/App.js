@@ -7,6 +7,7 @@ import Confirmation from "./pages/Confirmation";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Upload from "./pages/Upload";
+import View from "./pages/View";
 
 const RequireAuth = ({ children }) => {
   const { state } = useContext(Context);
