@@ -25,10 +25,17 @@
         );
       };
 
+      const delteFiles = (id) => {
+        return axios.delete(`/file/${id}`, {
+          headers: {...authHeader() },
+        });
+      };
+
       const UserService = {
         upload,
         getfiles,
         updateFile,
+        delteFiles,
       };
       
       export default UserService;
