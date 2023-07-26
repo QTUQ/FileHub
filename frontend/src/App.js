@@ -56,6 +56,15 @@ const App = () => {
         />
 
         <Route
+          path="/view"
+          element={
+            <RequireAuth>
+              <View />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/signup"
           element={
             <OnlyNotAuth>
