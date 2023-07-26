@@ -15,9 +15,20 @@
         });
       };
 
+      const updateFile = (file) => {
+        return axios.put(
+          `/file/${file._id}`,
+          { ...file },
+          {
+            headers: { ...authHeader() },
+          }
+        );
+      };
+
       const UserService = {
         upload,
         getfiles,
+        updateFile,
       };
       
       export default UserService;
