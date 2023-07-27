@@ -30,13 +30,24 @@ const Navbar = ({ auth }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <nav className="bg-gray-800">
+      <nav className="bg-[#2063b0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <img className="h-8 w-8" src={logo} alt="Educative" />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg"
+                 className="w-8 h-8 text-cyan-500" 
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+              >
+                 <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
               </div>
+              <h1 className="text-white font-semibold text-2xl">  
+                 FileHub
+              </h1>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   <Link
