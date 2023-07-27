@@ -37,7 +37,7 @@ const SignupForm = () => {
         setAlertState({
           show: true,
           color: "red",
-          msg: err.response.data || "Failed to create the account",
+          msg:  "Failed to create the account", // err.response.data ||
         });
       });
   };
