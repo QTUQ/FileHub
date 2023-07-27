@@ -64,9 +64,13 @@ const LoginForm = () => {
             Email
           </label>
           <input 
-            id="email"
+            id="email-address"
+            name="email"
             type="email"
+            autoComplete="email"
+            required
             className="border py-2 px-3 w-full rounded"
+            placeholder="Email address or Username"
             value={emailOrUsername}
             onChange={(e) => setEmailOrUsername(e.target.value)}
           />
@@ -78,7 +82,10 @@ const LoginForm = () => {
           <input
             id="password"
             type="password"
+            autoComplete="current-password"
+            required
             className="border py-2 px-3 w-full rounded"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)} 
           />
@@ -89,7 +96,9 @@ const LoginForm = () => {
       >
         Login
       </button>
+       <div className="flex justify-center">
         {processing ? <Loader /> : null}
+      </div>
       </form>
     </div>
   );
